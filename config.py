@@ -1,0 +1,1 @@
+export DATABASE_URL="postgresql://postgres:senhap@localhost:5432/bank_system"

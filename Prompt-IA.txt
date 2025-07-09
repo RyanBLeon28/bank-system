@@ -1,0 +1,48 @@
+antes de programar gostaria de estruturar meu projeto.
+
+Meu projeto conta com o CRUD para usuario.
+Entao acesso de login e cadastro
+Usar o Postgre como SGBD 
+
+pagina inicial, gerar transferencia de dinheiro, validade contas exisdtenes.....
+Como seria a estrutura de arquivos
+
+RESPOSTA
+/banco_app/
+│
+├── app.py                      # Arquivo principal da aplicação Flask
+├── config.py                   # Configurações da aplicação (ex: conexão com DB)
+├── requirements.txt            # Dependências Python
+│
+├── /templates/                 # Arquivos HTML (Jinja2)
+│   ├── base.html               # Template base (layout)
+│   ├── index.html              # Página inicial
+│   ├── login.html              # Tela de login
+│   ├── register.html           # Tela de cadastro
+│   ├── dashboard.html          # Painel do usuário
+│   ├── transfer.html           # Tela para transferir saldo
+│   └── error.html              # Páginas de erro (404, etc.)
+│
+├── /static/                    # Arquivos estáticos (CSS, JS, imagens)
+│   ├── css/
+│   ├── js/
+│   └── img/
+│
+├── /models/                    # Modelos e acesso ao banco
+│   ├── __init__.py
+│   ├── db.py                   # Conexão com PostgreSQL
+│   ├── user_model.py           # Funções relacionadas ao usuário
+│   └── account_model.py        # Funções relacionadas à conta
+│
+├── /routes/                    # Rotas (views)
+│   ├── __init__.py
+│   ├── auth_routes.py          # login, logout, registro
+│   ├── user_routes.py          # dados da conta, atualizar perfil
+│   └── transfer_routes.py      # rotas para transferência
+│
+└── /utils/                     # Funções auxiliares
+    ├── auth.py                 # verificação de login, senha, sessão
+    ├── validators.py           # validações de campos
+    └── helpers.py              # utilidades diversas
+
+
