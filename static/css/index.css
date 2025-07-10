@@ -3,7 +3,6 @@ body {
     background-color: var(--background-color);
     color: var(--text-color);
     margin: 0;
-    /* padding: 20px; */
 }
 
 h1 {
@@ -11,7 +10,7 @@ h1 {
 }
 
 a {
-    color: var(--secondary-color);
+    color: var(--primary-color);
     text-decoration: none;
 }
 

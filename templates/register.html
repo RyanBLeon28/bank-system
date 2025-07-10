@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <title>C3 Bank</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/colors.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+</head>
+<body>
+  <div class="container">
+
+    <h1>C3 Bank</h1>
+    
+    <h3>Crie uma conta</h3>
+    
+    <form method="POST" action="{{ url_for('register') }}" id="registerForm">
+        <div class="form-group">
+            <label for="username">Nome:</label>
+            <input type="text" name="username" id="username" required />
+        </div>
+        
+        <div class="form-group">
+            <label for="cpf">CPF:</label>
+            <input type="text" name="cpf" id="cpf" required />
+        </div>
+
+        <div class="form-group">
+            <div class="password-wrapper">
+            <label for="password">Senha:</label>
+            <input type="password" name="password" id="password" required />
+            <button type="button" id="togglePassword" aria-label="Mostrar senha"></button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="password-wrapper">
+            <label for="confirm_password">Repita a senha:</label>
+            <input type="password" name="confirm_password" id="confirm_password" required />
+            <button type="button" id="togglePassword" aria-label="Mostrar senha"></button>
+            </div>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <ul>
+            {% for category, message in messages %}
+            <li style="color: {% if category == 'danger' %}red{% elif category == 'success' %}green{% else %}black{% endif %};">
+            {{ message }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+
+        <button type="submit">Criar Cadastro</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("registerForm").addEventListener("submit", function(event) {
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirm_password").value;
+
+        if (password !== confirmPassword) {
+            event.preventDefault();
+            alert("As senhas não coincidem!");
+        }
+        });
+    </script>
+</body>
+</html>

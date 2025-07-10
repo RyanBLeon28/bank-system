@@ -1,62 +1,94 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: var(--background-color);
+    background-image: url('../../static/assets/C\ 3.png');
+    background-size: cover; 
+    background-position: center 20%; 
+    background-repeat: no-repeat; 
+    background-attachment: fixed;
+    background-color: #f0f2f5;
+
     color: var(--text-color);
     margin: 0;
     display: flex; 
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     height: 100vh;
 }
 
 .container{
-    background-color: var(--background-containers);
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
     text-align: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+}
+
+.container1{
+  background-color: transparent;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+}
+
+.container2 {
+  background-color: transparent;
+  width: 50%;
+}
+
+h1, a, p, label{
+    color: var(--text-light);
 }
 
 h1 {
-    color: var(--primary-color);
-}
-
-a {
-    color: var(--secondary-color);
-    text-decoration: none;
+  margin-bottom: 10%;
 }
 
 button {
-    background-color: var(--primary-color);
+    background-color: var(--buttons-color);
     color: var(--text-light);
     border: none;
-    padding: 10px 16px;
-    border-radius: 4px;
+    padding: 13px 20px;
+    border-radius: 15px;
     cursor: pointer;
     margin-top: 20px;
+    width: 20%;
+    text-size-adjust: 20px;
+}
+
+button[type="submit"] {
+  font-size: 18px;
 }
 
 .form-group {
   margin-bottom: 20px;
   display: flex;
   align-items: center;
+  justify-content: center;
+}
+
+.form-group label {
+  margin-right: 5px;  
+}
+
+.form-group input[type="text"],
+.password-wrapper {
+  width: 30%;
 }
 
 input[type="text"],
 input[type="password"] {
-  width: 100%;
-  padding: 8px 12px;
+  padding: 6px 12px;
   border-radius: 6px;
   border: 1px solid #ccc;
   font-size: 16px;
   box-sizing: border-box;
-  margin-left: 5px;
 }
 
 .password-wrapper {
   position: relative;
   display: flex;
   align-items: center;
+  margin-left: 5px;
 }
 
 .password-wrapper input {

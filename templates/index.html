@@ -10,7 +10,10 @@
     <div class="header">
         <h1>Bem-vindo ao C3 bank</h1>
         
+        <a href="{{ url_for('transfer') }}">Transferir</a>
+        
         <a href="{{ url_for('logout') }}">Sair</a>
+
     </div>
     <div class="container">
         <div class="infos">
@@ -54,9 +57,9 @@
                 <p>Nenhuma transação encontrada.</p>
             {% endif %}
 
-            <button type="button" onclick="location.href='{{ url_for('transfer') }}'">
+            <!-- <button type="button" onclick="location.href='{{ url_for('transfer') }}'">
                 Fazer transferência
-            </button>
+            </button> -->
         </div>
         
     </div>

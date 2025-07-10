@@ -1,12 +1,12 @@
 :root {
     /* Primary theme colors */
-    --primary-color: #0f448a;        /* Main blue */
+    --primary-color: #ffffff;        /* Main blue */
     --secondary-color: #185abc;      /* Darker blue */
     --accent-color: #ff9800;         /* Orange for highlights/buttons */
 
     /* Background colors */
     --background-color: #ffffff;
-    --background-containers: #05968a93;
+    --background-containers: #002091;
     --background-light: #e6e6e6;
     --background-dark: #eeeeee;
 

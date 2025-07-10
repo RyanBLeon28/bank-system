@@ -46,3 +46,70 @@ RESPOSTA
     └── helpers.py              # utilidades diversas
 
 
+PERGUNTA
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        cpf = request.form['cpf']
+        password = request.form['password']
+
+        user = User.query.filter_by(cpf=cpf).first()
+
+        if user and user.password_hash == password:
+            session['cpf'] = user.cpf
+            flash("Login realizado com sucesso!", "success")
+            return redirect(url_for('home'))
+        else:
+            flash("Usuário ou senha inválidos!", "danger")
+            return redirect(url_for('login'))
+
+    return render_template('login.html')
+
+@app.route('/register', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        cpf = request.form['cpf']
+        password = request.form['password']
+
+        user = User.query.filter_by(cpf=cpf).first()
+
+        if user and user.password_hash == password:
+            session['cpf'] = user.cpf
+            flash("Cadastro realizado com sucesso!", "success")
+            return redirect(url_for('login'))
+        else:
+            flash("As senhas não correspondem", "danger")
+            return redirect(url_for('register'))
+
+    return render_template('register.html')
+
+
+ao clicar em Cadastro no login redirecionar para a tela de registro
+
+
+
+RESPOSTA
+
+Você tem dois problemas principais no seu código:
+
+A função do endpoint /register está nomeada como login, o que sobrescreve a função anterior de login. Isso causa comportamento inesperado no Flask.
+
+Para o link “Cadastro” no login.html, você precisa adicionar um link para url_for('register').
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():  # <- corrigido o nome aqui
+    if request.method == 'POST':
+        cpf = request.form['cpf']
+        password = request.form['password']
+
+        user = User.query.filter_by(cpf=cpf).first()
+
+        if user and user.password_hash == password:
+            session['cpf'] = user.cpf
+            flash("Cadastro realizado com sucesso!", "success")
+            return redirect(url_for('login'))
+        else:
+            flash("As senhas não correspondem", "danger")
+            return redirect(url_for('register'))
+
+    return render_template('register.html')

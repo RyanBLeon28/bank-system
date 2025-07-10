@@ -5,6 +5,7 @@ from models.user_model import User
 from models.account_model import Account 
 from models.transactions_model import Transaction
 from decimal import Decimal
+from sqlalchemy import func
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123456@localhost:5432/bank_system'
@@ -48,6 +49,53 @@ def login():
             return redirect(url_for('login'))
 
     return render_template('login.html')
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        cpf = request.form['cpf']
+        password = request.form['password']
+        confirm_password = request.form['confirm_password'] 
+        
+        if password != confirm_password:
+            flash("As senhas não coincidem!", "danger")
+            return redirect(url_for('register'))
+
+        # Check if CPF already exists
+        existing_cpf = User.query.filter_by(cpf=cpf).first()
+
+        if existing_cpf:
+            flash("CPF já cadastrado. Por favor, use um CPF diferente.", "danger")
+            return redirect(url_for('register'))
+
+        # Create a new user
+        new_user = User(username=username, cpf=cpf, password_hash=password)
+        db.session.add(new_user)
+        db.session.commit()
+
+        accounts = db.session.query(func.count(Account.id)).scalar()
+        new_account_id = f"ACC{(accounts+1):03d}"
+
+        existing_account = Account.query.filter_by(id=new_account_id).first()
+        if existing_account:
+            flash("Erro ao gerar ID da conta. Tente novamente.", "danger")
+            return redirect(url_for('some_error_page'))
+
+        new_account = Account(id=new_account_id, cpf=cpf, balance=0.00)
+
+        try:
+            db.session.add(new_account)
+            db.session.commit()
+            flash(f"Conta criada com sucesso!", "success")
+            return redirect(url_for('login')) 
+        except Exception as e:
+            db.session.rollback() # Rollback in case of error
+            flash(f"Erro ao criar conta: {str(e)}", "danger")
+            return redirect(url_for('register'))
+
+    return render_template('register.html')
 
 @app.route('/transfer', methods=['GET', 'POST'])
 def transfer():

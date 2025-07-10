@@ -8,42 +8,49 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/transfer.css') }}">
 </head>
 <body>
+  <div class="header">
+      <h1>Bem-vindo ao C3 bank</h1>
+      
+      <a href="{{ url_for('transfer') }}">Transferir</a>
+
+      <a href="{{ url_for('home') }}">Voltar</a>
+  </div>
   <div class="container">
-    <h1>Transferência</h1>
+    <div class="subContainer">
+      <h1>Transferência</h1>
 
-    <p>Saldo atual: R$ {{ "%.2f"|format(account.balance) }}</p>
+      <p>Saldo atual: R$ {{ "%.2f"|format(account.balance) }}</p>
 
-   
-
-    <form method="POST">
-        <div class="form-group">
-          <label for="target">Conta de destino:</label>
-          <input type="text" name="target" id="target" required><br>
-        </div>
-
-        <div class="form-group">
-          <div class="password-wrapper">
-            <label for="amount">Valor:</label>
-            <input type="number" step="0.01" name="amount" id="amount" required><br>
+      <form method="POST">
+          <div class="form-group">
+            <label for="target">Conta de destino:</label>
+            <input type="text" name="target" id="target" required><br>
           </div>
-        </div>
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-          <ul>
-            {% for category, message in messages %}
-              <li style="color: {% if category == 'danger' %}red{% elif category == 'success' %}green{% else %}black{% endif %};">
-                {{ message }}
-              </li>
-            {% endfor %}
-          </ul>
-        {% endif %}
-      {% endwith %}
+          <div class="form-group">
+            <div class="password-wrapper">
+              <label for="amount">Valor:</label>
+              <input type="number" step="0.01" name="amount" id="amount" required><br>
+            </div>
+          </div>
 
-        <button type="submit">Transferir</button>
-    </form>
+          {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <ul>
+              {% for category, message in messages %}
+                <li style="color: {% if category == 'danger' %}red{% elif category == 'success' %}green{% else %}black{% endif %};">
+                  {{ message }}
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
 
-    <a href="{{ url_for('home') }}">Voltar</a>
+          <button type="submit">Transferir</button>
+      </form>
+
+      <a href="{{ url_for('home') }}">Voltar</a>
+    </div>
   </div>
 </body>
 </html>
