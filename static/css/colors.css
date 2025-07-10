@@ -1,0 +1,25 @@
+:root {
+    /* Primary theme colors */
+    --primary-color: #0f448a;        /* Main blue */
+    --secondary-color: #185abc;      /* Darker blue */
+    --accent-color: #ff9800;         /* Orange for highlights/buttons */
+
+    /* Background colors */
+    --background-color: #ffffff;
+    --background-containers: #05968a93;
+    --background-light: #e6e6e6;
+    --background-dark: #eeeeee;
+
+    /* Text colors */
+    --text-color: #212121;
+    --text-light: #ffffff;
+    --text-muted: #757575;
+
+    /* Feedback colors */
+    --success-color: #4caf50;
+    --error-color: #f44336;
+    --warning-color: #ffeb3b;
+
+    --buttons-color: #467c13;      /* Darker blue */
+
+}

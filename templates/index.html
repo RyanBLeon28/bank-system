@@ -1,11 +1,64 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
-    <title>C3 Bank</title>
+    <meta charset="UTF-8">
+    <title>Página Principal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/colors.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 </head>
 <body>
-    <h1>C3 Bank</h1>
+    <div class="header">
+        <h1>Bem-vindo ao C3 bank</h1>
+        
+        <a href="{{ url_for('logout') }}">Sair</a>
+    </div>
+    <div class="container">
+        <div class="infos">
+            <p>Olá, {{ user.username }}!</p>
 
+            <h2>Dados da Conta</h2>
+            {% if account %}
+                <ul>
+                    <li>Número da conta: {{ account.id }}</li>
+                    <li>Saldo: R$ {{ "%.2f"|format(account.balance) }}</li>
+                    <li>Criada em: {{ account.create_at.strftime("%d/%m/%Y %H:%M") }}</li>
+                </ul>
+            {% else %}
+                <p>Conta não encontrada.</p>
+            {% endif %}
+        </div>
+
+        <div class="statement">
+            
+            <h2>📄 Extrato</h2>
+            {% if transactions %}
+                <ul>
+                {% for t in transactions %}
+                    <li>
+                        {% if t.type == 'deposit' and t.target_account == account.id %}
+                            <strong>Depósito</strong> — R$ {{ "%.2f"|format(t.amount) }}
+                        {% elif t.type == 'withdraw' and t.source_account == account.id %}
+                            <strong>Saque</strong> — R$ {{ "%.2f"|format(t.amount) }}
+                        {% elif t.type == 'transfer' %}
+                            {% if t.source_account == account.id %}
+                                <strong>Transferência enviada</strong> — R$ {{ "%.2f"|format(t.amount) }} para {{ t.target_account }}
+                            {% elif t.target_account == account.id %}
+                                <strong>Transferência recebida</strong> — R$ {{ "%.2f"|format(t.amount) }} de {{ t.source_account }}
+                            {% endif %}
+                        {% endif %}
+                        <br><small>{{ t.created_at.strftime("%d/%m/%Y %H:%M") }}</small>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p>Nenhuma transação encontrada.</p>
+            {% endif %}
+
+            <button type="button" onclick="location.href='{{ url_for('transfer') }}'">
+                Fazer transferência
+            </button>
+        </div>
+        
+    </div>
 </body>
 </html>
