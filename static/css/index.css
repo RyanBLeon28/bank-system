@@ -6,11 +6,15 @@ body {
 }
 
 h1 {
-    color: var(--primary-color);
+    color: var(--text-color);
+}
+
+h3 {
+    margin-left: 40px;
 }
 
 a {
-    color: var(--primary-color);
+    color: var(--text-color);
     text-decoration: none;
 }
 
@@ -25,67 +29,65 @@ button {
     align-items: center;
     justify-content: center;
 }
-
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 60px;
-    background-color: var(--background-containers);
-    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-    border-bottom: 1px solid var(--border-color, #ddd);
+    padding: 40px 60px;        /* mais altura vertical */
+    background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%); /* degradê */
+    box-shadow: 0 4px 15px rgba(106, 17, 203, 0.6); /* sombra mais marcada e colorida */
+    border-bottom: none; /* remove a borda para ficar mais clean */
+    color: white; /* garante que o texto fique branco */
 }
 
 .logo h1 {
-    font-size: 28px;
-    color: var(--primary-color);
+    font-size: 36px;          /* maior tamanho */
+    color: #fff;              /* branco para contraste no degradê */
     margin: 0;
+    font-weight: 700;
 }
 
 .right-actions {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 20px;
 }
 
 .saldo-container {
     display: flex;
     align-items: center;
-    gap: 8px;
-    background-color: var(--background-color);
-    padding: 2px 12px;
+    gap: 6px; /* espaço entre olho, R$, e valor */
+    /* background-color: var(--background-color); */
+    padding: 4px 10px;
     border-radius: 12px;
     font-weight: bold;
-    /* color: var(--primary-color); */
 }
-
 .btn-olho {
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 14px;
     color: #000000;
     padding: 0;
-    width: 24px;
-    height: 24px;
+    width: 18px;
+    height: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .btn-sair {
-    text-decoration: none;
-    padding: 10px 15px;
-    background-color: var(--buttons-color);
-    color: var(--text-light);
-    border-radius: 10px;
-    font-weight: bold;
-    transition: background-color 0.2s ease;
+    padding: 12px 20px;
+    background-color: #ff4d4d;
+    color: white;
+    border-radius: 12px;
+    font-weight: 700;
+    transition: background-color 0.3s ease;
 }
 
 .btn-sair:hover {
-    background-color: var(--hover-color, #e0e0e0);
-    color: var(--primary-color);
+    background-color: #e04343;
+    color: white;
 }
 
 .container {

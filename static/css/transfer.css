@@ -1,160 +1,155 @@
-body, html {
-    height: 100%;
-    margin: 0;
-    padding: 0;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 60px;
-    background-color: var(--background-containers);
-    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-    border-bottom: 1px solid var(--border-color, #ddd);
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #6a11cb, var(--background-containers));
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
 
-.logo h1 {
-    font-size: 28px;
-    color: var(--primary-color);
-    margin: 0;
+.transfer-container {
+  background: #ffffff15;
+  padding: 2.5rem 3rem;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  max-width: 450px;
+  width: 100%;
+  backdrop-filter: blur(10px);
+  text-align: center;
 }
 
-.right-actions {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+.transfer-container h1 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .saldo-container {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background-color: var(--background-color);
-    padding: 2px 12px;
-    border-radius: 12px;
-    font-weight: bold;
-    /* color: var(--primary-color); */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.8rem;
+  font-weight: 600;
+  font-size: 1.2rem;
 }
 
 .btn-olho {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 20px;
-    color: #000000;
-    padding: 0;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #ffeb3b;
+  font-size: 1.3rem;
+  padding: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s ease;
 }
 
-.btn-sair {
-    text-decoration: none;
-    padding: 10px 15px;
-    background-color: var(--buttons-color);
-    color: var(--text-light);
-    border-radius: 10px;
-    font-weight: bold;
-    transition: background-color 0.2s ease;
+.btn-olho:hover {
+  color: #fff;
 }
 
-.btn-sair:hover {
-    background-color: var(--hover-color, #e0e0e0);
-    color: var(--primary-color);
-}
-
-.container{
-    /* width: 100%; */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 80px; 
-}
-
-.subContainer {
-    background-color: var(--card-color);
-    border-radius: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 40px;
-    text-align: center;
-    /* width: 100%; */
-    /* margin-top: 120px; */
-}
-
-h1 {
-    color: var(--text-color);
-}
-
-a, label, p{
-    color: var(--text-color);
-    text-decoration: none;
-}
-
-a {
-    font-size: 14px;
-}
-
-button {
-    background-color: var(--buttons-color);
-    color: var(--text-light);
-    border: none;
-    padding: 12px 16px;
-    border-radius: 10px;
-    cursor: pointer;
-    margin-top: 10px;
-    margin-bottom: 20px;
-}
-
-button[type=submit]{
-    color: var(--text-color);
-    font-size: 16px;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center; 
+.transfer-form {
+  text-align: left;
 }
 
 .form-group {
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
+  margin-bottom: 1.4rem;
 }
 
-input[type="text"],
-input[type="number"] {
-    width: 180px;
-    padding: 8px 12px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-    box-sizing: border-box;
-    margin-left: 5px;
+.form-group label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
 }
 
-.password-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
+.form-group input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  transition: background 0.3s ease;
 }
 
-.password-wrapper input {
-    flex: 1;
+.form-group input::placeholder {
+  color: #ddd;
 }
 
-.password-wrapper button {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-    padding: 0 10px;
-    user-select: none;
+.form-group input:focus {
+  background: rgba(255, 255, 255, 0.25);
 }
 
+.messages {
+  list-style: none;
+  margin-bottom: 1.4rem;
+}
+
+.message-danger {
+  color: #f44336;
+  font-weight: 600;
+}
+
+.message-success {
+  color: #4caf50;
+  font-weight: 600;
+}
+
+.message-info {
+  color: #2196f3;
+  font-weight: 600;
+}
+
+.btn-transfer {
+  width: 100%;
+  background-color: #6a11cb;
+  color: #fff;
+  border: none;
+  padding: 14px 0;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 1rem;
+}
+
+.btn-transfer:hover {
+  background-color: #8b2de9;
+}
+
+.btn-voltar {
+  color: #ffeb3b;
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+  width: 100%;
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+}
+
+.btn-voltar:hover {
+  color: #fff;
+}

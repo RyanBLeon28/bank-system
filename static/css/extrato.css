@@ -1,0 +1,76 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #6a11cb, var(--background-containers));
+  color: #fff;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  margin-top: 10%;
+  background-color: #ffffff15;
+  padding: 2rem 3rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  width: 100%;
+  backdrop-filter: blur(10px);
+}
+
+.card h1 {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #fff;
+}
+
+.transactions {
+  list-style: none;
+}
+
+.transactions li {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-bottom: 1.2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 1rem;
+}
+
+.transactions .icon i {
+  font-size: 1.5rem;
+}
+
+.transactions .details {
+  font-size: 1rem;
+}
+
+.transactions .details small {
+  color: #ddd;
+  font-size: 0.85rem;
+}
+
+.empty {
+  text-align: center;
+  font-size: 1.2rem;
+  opacity: 0.8;
+}
+
+/* Cores semânticas */
+.text-green {
+  color: #4caf50;
+}
+.text-red {
+  color: #f44336;
+}
+.text-orange {
+  color: #ff9800;
+}

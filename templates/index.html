@@ -15,6 +15,7 @@
         <div class="logo">
             <h1>C3 Bank</h1>
         </div>
+
         
         <div class="right-actions">
             <div class="saldo-container">
@@ -24,10 +25,11 @@
                 <span>R$</span>
                 <span id="saldo-valor">{{ "%.2f"|format(account.balance) }}</span>
             </div>
-
+            
             <a href="{{ url_for('logout') }}" class="btn-sair">Sair</a>
         </div>
     </div>
+    <h3>Bem vindo, {{ user.username }}</h3>
 
     <div class="container cards-container">
         <div class="card" onclick="location.href='{{ url_for('extrato') }}'">

@@ -1,32 +1,68 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Extrato</title>
+  <meta charset="UTF-8">
+  <title>Extrato</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <!-- CSS externo -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/colors.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/extrato.css') }}">
 </head>
 <body>
-    <h1>📄 Extrato</h1>
+  <div class="card">
+    <h1><i class="fa-solid fa-file-invoice-dollar"></i> Extrato</h1>
     {% if transactions %}
-        <ul>
-            {% for t in transactions %}
-                <li>
-                    {% if t.type == 'deposit' and t.target_account == account.id %}
-                        <strong>Depósito</strong> — R$ {{ "%.2f"|format(t.amount) }}
-                    {% elif t.type == 'withdraw' and t.source_account == account.id %}
-                        <strong>Saque</strong> — R$ {{ "%.2f"|format(t.amount) }}
-                    {% elif t.type == 'transfer' %}
-                        {% if t.source_account == account.id %}
-                            <strong>Transferência enviada</strong> — R$ {{ "%.2f"|format(t.amount) }} para {{ t.target_account }}
-                        {% elif t.target_account == account.id %}
-                            <strong>Transferência recebida</strong> — R$ {{ "%.2f"|format(t.amount) }} de {{ t.source_account }}
-                        {% endif %}
-                    {% endif %}
-                    <br><small>{{ t.created_at.strftime("%d/%m/%Y %H:%M") }}</small>
-                </li>
-            {% endfor %}
-        </ul>
+      <ul class="transactions">
+        {% for t in transactions %}
+          <li>
+            <span class="icon">
+              {% if t.type == 'deposit' and t.target_account == account.id %}
+                <i class="fa-solid fa-arrow-down text-green"></i>
+              {% elif t.type == 'withdraw' and t.source_account == account.id %}
+                <i class="fa-solid fa-arrow-up text-red"></i>
+              {% elif t.type == 'transfer' %}
+                {% if t.source_account == account.id %}
+                  <i class="fa-solid fa-arrow-right text-orange"></i>
+                {% elif t.target_account == account.id %}
+                  <i class="fa-solid fa-arrow-left text-green"></i>
+                {% endif %}
+              {% endif %}
+            </span>
+            <div class="details">
+              <strong>
+                {% if t.type == 'deposit' and t.target_account == account.id %}
+                  Depósito
+                {% elif t.type == 'withdraw' and t.source_account == account.id %}
+                  Saque
+                {% elif t.type == 'transfer' %}
+                  {% if t.source_account == account.id %}
+                    Transferência enviada
+                  {% elif t.target_account == account.id %}
+                    Transferência recebida
+                  {% endif %}
+                {% endif %}
+              </strong>
+              — R$ {{ "%.2f"|format(t.amount) }}
+              <br>
+              <small>{{ t.created_at.strftime("%d/%m/%Y %H:%M") }}</small>
+              {% if t.type == 'transfer' %}
+                <br><small>
+                  {% if t.source_account == account.id %}
+                    Para: {{ t.target_account }}
+                  {% elif t.target_account == account.id %}
+                    De: {{ t.source_account }}
+                  {% endif %}
+                </small>
+              {% endif %}
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
     {% else %}
-        <p>Nenhuma transação encontrada.</p>
+      <p class="empty">Nenhuma transação encontrada.</p>
     {% endif %}
+  </div>
 </body>
 </html>

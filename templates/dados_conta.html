@@ -1,14 +1,30 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Dados da Conta</title>
+  <meta charset="UTF-8">
+  <title>Dados da Conta</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <!-- CSS externo -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/colors.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/account.css') }}">
 </head>
 <body>
-    <h1>🧾 Dados da Conta</h1>
-    <p>Nome: {{ user.username }}</p>
-    <p>Número da conta: {{ account.id }}</p>
-    <p>Saldo: R$ {{ "%.2f"|format(account.balance) }}</p>
-    <p>Criada em: {{ account.create_at.strftime("%d/%m/%Y %H:%M") }}</p>
+  <div class="card">
+    <h1><i class="fa-solid fa-address-card"></i> Dados da Conta</h1>
+    <p><i class="fa-solid fa-user"></i> Nome: {{ user.username }}</p>
+    <p><i class="fa-solid fa-id-badge"></i> Número da conta: {{ account.id }}</p>
+    <p><i class="fa-solid fa-wallet"></i> Saldo: R$ {{ "%.2f"|format(account.balance) }}</p>
+    <p><i class="fa-solid fa-calendar-alt"></i> Criada em: {{ account.create_at.strftime("%d/%m/%Y %H:%M") }}</p>
+
+    <form action="{{ url_for('delete_account') }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir sua conta? Esta ação é irreversível.');">
+      <button type="submit" class="delete-button">
+        <i class="fa-solid fa-trash"></i> Excluir Conta
+      </button>
+    </form>
+  </div>
 </body>
 </html>

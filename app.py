@@ -121,6 +121,12 @@ def transfer():
     if request.method == 'POST':
         target_id = request.form['target']
         amount = Decimal(request.form['amount'])
+        password = request.form['password']
+
+        # Validação da senha
+        if user.password_hash != password:
+            flash("Senha incorreta. Confirme sua senha para transferir.", "danger")
+            return redirect(url_for('transfer'))
 
         # Check balance
         if amount <= 0:
@@ -150,9 +156,11 @@ def transfer():
                 db.session.commit()
 
                 flash("Transferência realizada com sucesso!", "success")
-                return redirect(url_for('home'))
+                # return redirect(url_for('home'))
+                return render_template("transfer_success.html")
 
     return render_template('transfer.html', user=user, account=account)
+
 
 @app.route('/extrato')
 @jwt_required()
@@ -175,6 +183,9 @@ def dados_conta():
     account = Account.query.filter_by(cpf=cpf).first()
     return render_template('dados_conta.html', user=user, account=account)
 
+@jwt.expired_token_loader
+def my_expired_token_callback(jwt_header, jwt_payload):
+    return redirect(url_for('login'))
 
 @app.route('/logout')
 def logout():
@@ -183,6 +194,31 @@ def logout():
     flash("Você saiu da conta.", "info")
     return resp
 
+@app.route('/delete_account', methods=['POST'])
+@jwt_required()
+def delete_account():
+    cpf = get_jwt_identity()
+    user = User.query.filter_by(cpf=cpf).first()
+    account = Account.query.filter_by(cpf=cpf).first()
+
+    if user and account:
+        try:
+            db.session.delete(account)
+            db.session.delete(user)
+            db.session.commit()
+
+            resp = redirect(url_for('login'))
+            unset_jwt_cookies(resp)
+            flash("Conta excluída com sucesso.", "success")
+            return resp
+        except Exception as e:
+            db.session.rollback()
+            flash(f"Erro ao excluir conta: {str(e)}", "danger")
+            return redirect(url_for('dados_conta'))
+
+    flash("Conta não encontrada.", "danger")
+    return redirect(url_for('dados_conta'))
+    
 if __name__ == '__main__':
     with app.app_context():
         db.create_all() 
