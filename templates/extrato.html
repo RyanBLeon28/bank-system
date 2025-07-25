@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Extrato</title>
+</head>
+<body>
+    <h1>📄 Extrato</h1>
+    {% if transactions %}
+        <ul>
+            {% for t in transactions %}
+                <li>
+                    {% if t.type == 'deposit' and t.target_account == account.id %}
+                        <strong>Depósito</strong> — R$ {{ "%.2f"|format(t.amount) }}
+                    {% elif t.type == 'withdraw' and t.source_account == account.id %}
+                        <strong>Saque</strong> — R$ {{ "%.2f"|format(t.amount) }}
+                    {% elif t.type == 'transfer' %}
+                        {% if t.source_account == account.id %}
+                            <strong>Transferência enviada</strong> — R$ {{ "%.2f"|format(t.amount) }} para {{ t.target_account }}
+                        {% elif t.target_account == account.id %}
+                            <strong>Transferência recebida</strong> — R$ {{ "%.2f"|format(t.amount) }} de {{ t.source_account }}
+                        {% endif %}
+                    {% endif %}
+                    <br><small>{{ t.created_at.strftime("%d/%m/%Y %H:%M") }}</small>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Nenhuma transação encontrada.</p>
+    {% endif %}
+</body>
+</html>

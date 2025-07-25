@@ -1,43 +1,95 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: var(--background-color);
-    color: var(--text-color);
+body, html {
+    height: 100%;
     margin: 0;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    padding: 0;
 }
 
-.header{
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 60px;
+    background-color: var(--background-containers);
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid var(--border-color, #ddd);
+}
+
+.logo h1 {
+    font-size: 28px;
+    color: var(--primary-color);
+    margin: 0;
+}
+
+.right-actions {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 0 80px 0 80px;
-    background-color: var(--background-containers);
+    gap: 12px;
+}
+
+.saldo-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--background-color);
+    padding: 2px 12px;
+    border-radius: 12px;
+    font-weight: bold;
+    /* color: var(--primary-color); */
+}
+
+.btn-olho {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: #000000;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-sair {
+    text-decoration: none;
+    padding: 10px 15px;
+    background-color: var(--buttons-color);
+    color: var(--text-light);
+    border-radius: 10px;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+.btn-sair:hover {
+    background-color: var(--hover-color, #e0e0e0);
+    color: var(--primary-color);
 }
 
 .container{
-    width: 100%;
+    /* width: 100%; */
     display: flex;
     justify-content: center;
+    align-items: center;
+    padding-top: 80px; 
 }
 
 .subContainer {
-    width: 40%;
-    background-color: var(--background-containers);
+    background-color: var(--card-color);
     border-radius: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 40px;
     text-align: center;
-    margin-top: 120px;
+    /* width: 100%; */
+    /* margin-top: 120px; */
 }
 
 h1 {
-    color: var(--primary-color);
+    color: var(--text-color);
 }
 
 a, label, p{
-    color: var(--primary-color);
+    color: var(--text-color);
     text-decoration: none;
 }
 
@@ -57,7 +109,7 @@ button {
 }
 
 button[type=submit]{
-    color: var(--primary-color);
+    color: var(--text-color);
     font-size: 16px;
 }
 

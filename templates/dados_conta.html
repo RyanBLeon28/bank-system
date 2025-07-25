@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Dados da Conta</title>
+</head>
+<body>
+    <h1>🧾 Dados da Conta</h1>
+    <p>Nome: {{ user.username }}</p>
+    <p>Número da conta: {{ account.id }}</p>
+    <p>Saldo: R$ {{ "%.2f"|format(account.balance) }}</p>
+    <p>Criada em: {{ account.create_at.strftime("%d/%m/%Y %H:%M") }}</p>
+</body>
+</html>

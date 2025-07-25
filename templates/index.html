@@ -2,66 +2,71 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Página Principal</title>
+    <title>C3 Bank</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/colors.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
 </head>
 <body>
     <div class="header">
-        <h1>Bem-vindo ao C3 bank</h1>
-        
-        <a href="{{ url_for('transfer') }}">Transferir</a>
-        
-        <a href="{{ url_for('logout') }}">Sair</a>
-
-    </div>
-    <div class="container">
-        <div class="infos">
-            <p>Olá, {{ user.username }}!</p>
-
-            <h2>Dados da Conta</h2>
-            {% if account %}
-                <ul>
-                    <li>Número da conta: {{ account.id }}</li>
-                    <li>Saldo: R$ {{ "%.2f"|format(account.balance) }}</li>
-                    <li>Criada em: {{ account.create_at.strftime("%d/%m/%Y %H:%M") }}</li>
-                </ul>
-            {% else %}
-                <p>Conta não encontrada.</p>
-            {% endif %}
-        </div>
-
-        <div class="statement">
-            
-            <h2>📄 Extrato</h2>
-            {% if transactions %}
-                <ul>
-                {% for t in transactions %}
-                    <li>
-                        {% if t.type == 'deposit' and t.target_account == account.id %}
-                            <strong>Depósito</strong> — R$ {{ "%.2f"|format(t.amount) }}
-                        {% elif t.type == 'withdraw' and t.source_account == account.id %}
-                            <strong>Saque</strong> — R$ {{ "%.2f"|format(t.amount) }}
-                        {% elif t.type == 'transfer' %}
-                            {% if t.source_account == account.id %}
-                                <strong>Transferência enviada</strong> — R$ {{ "%.2f"|format(t.amount) }} para {{ t.target_account }}
-                            {% elif t.target_account == account.id %}
-                                <strong>Transferência recebida</strong> — R$ {{ "%.2f"|format(t.amount) }} de {{ t.source_account }}
-                            {% endif %}
-                        {% endif %}
-                        <br><small>{{ t.created_at.strftime("%d/%m/%Y %H:%M") }}</small>
-                    </li>
-                {% endfor %}
-                </ul>
-            {% else %}
-                <p>Nenhuma transação encontrada.</p>
-            {% endif %}
-
-            <!-- <button type="button" onclick="location.href='{{ url_for('transfer') }}'">
-                Fazer transferência
-            </button> -->
+        <div class="logo">
+            <h1>C3 Bank</h1>
         </div>
         
+        <div class="right-actions">
+            <div class="saldo-container">
+                <button id="toggle-saldo" class="btn-olho" title="Mostrar/Esconder saldo">
+                    <i id="icon-olho" class="fa-solid fa-eye"></i>
+                </button>
+                <span>R$</span>
+                <span id="saldo-valor">{{ "%.2f"|format(account.balance) }}</span>
+            </div>
+
+            <a href="{{ url_for('logout') }}" class="btn-sair">Sair</a>
+        </div>
     </div>
+
+    <div class="container cards-container">
+        <div class="card" onclick="location.href='{{ url_for('extrato') }}'">
+            <h2><i class="fa-solid fa-file-invoice-dollar"></i> Extrato</h2>
+            <p>Veja todas as suas movimentações bancárias.</p>
+        </div>
+
+        <div class="card" onclick="location.href='{{ url_for('transfer') }}'">
+            <h2><i class="fa-solid fa-money-bill-transfer"></i> Transferir</h2>
+            <p>Envie dinheiro para outras contas.</p>
+        </div>
+
+        <div class="card" onclick="location.href='{{ url_for('dados_conta') }}'">
+            <h2><i class="fa-solid fa-id-card"></i> Dados da Conta</h2>
+            <p>Veja o número da sua conta, saldo e data de criação.</p>
+        </div>
+    </div>
+
+    <script>
+        const saldoValor = document.getElementById('saldo-valor');
+        const toggleBtn = document.getElementById('toggle-saldo');
+        const iconOlho = document.getElementById('icon-olho');
+
+        let visivel = true;
+        const saldoOriginal = saldoValor.textContent;
+
+        toggleBtn.addEventListener('click', () => {
+            visivel = !visivel;
+            if (visivel) {
+                saldoValor.textContent = saldoOriginal;
+                iconOlho.classList.remove('fa-eye-slash');
+                iconOlho.classList.add('fa-eye');
+            } else {
+                saldoValor.textContent = '••••••';
+                iconOlho.classList.remove('fa-eye');
+                iconOlho.classList.add('fa-eye-slash');
+            }
+        });
+    </script>
+
 </body>
 </html>

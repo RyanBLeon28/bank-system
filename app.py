@@ -6,31 +6,42 @@ from models.account_model import Account
 from models.transactions_model import Transaction
 from decimal import Decimal
 from sqlalchemy import func
+from flask_jwt_extended import JWTManager, create_access_token, set_access_cookies, unset_jwt_cookies, jwt_required, get_jwt_identity
+from datetime import timedelta
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123456@localhost:5432/bank_system'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'sua_chave_secreta'
 
+app.config['JWT_SECRET_KEY'] = 'sua_chave_super_secreta'  # troque isso em produção!
+app.config['JWT_TOKEN_LOCATION'] = ['cookies']
+app.config['JWT_COOKIE_SECURE'] = False  # True para HTTPS
+app.config['JWT_COOKIE_CSRF_PROTECT'] = False 
+jwt = JWTManager(app)
+
 db.init_app(app)
 
 @app.route('/')
+@jwt_required(optional=True)
 def home():
-    if 'cpf' in session:
-        user = User.query.filter_by(cpf=session['cpf']).first()
-        if user:
-            account = Account.query.filter_by(cpf=user.cpf).first()
-            transactions = []
-            if account:
-                transactions = Transaction.query.filter(
-                    (Transaction.source_account == account.id) | (Transaction.target_account == account.id)
-                ).order_by(Transaction.created_at.desc()).all()
+    cpf = get_jwt_identity()
+    print("CPF do token:", get_jwt_identity())
+    if not cpf:
+        return redirect(url_for('login'))
+    user = User.query.filter_by(cpf=cpf).first()
+    if user:
+        account = Account.query.filter_by(cpf=user.cpf).first()
+        transactions = []
+        if account:
+            transactions = Transaction.query.filter(
+                (Transaction.source_account == account.id) | (Transaction.target_account == account.id)
+            ).order_by(Transaction.created_at.desc()).all()
 
-            return render_template('index.html', user=user, account=account, transactions=transactions)
-        else:
-            flash("Usuário não encontrado.", "danger")
-            return redirect(url_for('logout'))
-    return redirect(url_for('login'))
+        return render_template('index.html', user=user, account=account, transactions=transactions)
+    else:
+        flash("Usuário não encontrado.", "danger")
+        return redirect(url_for('logout'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -41,9 +52,11 @@ def login():
         user = User.query.filter_by(cpf=cpf).first()
 
         if user and user.password_hash == password:
-            session['cpf'] = user.cpf
+            access_token = create_access_token(identity=cpf, expires_delta=timedelta(hours=1))
+            resp = redirect(url_for('home'))
+            set_access_cookies(resp, access_token)
             flash("Login realizado com sucesso!", "success")
-            return redirect(url_for('home'))
+            return resp
         else:
             flash("Usuário ou senha inválidos!", "danger")
             return redirect(url_for('login'))
@@ -98,11 +111,11 @@ def register():
     return render_template('register.html')
 
 @app.route('/transfer', methods=['GET', 'POST'])
+@jwt_required()
 def transfer():
-    if 'cpf' not in session:
-        return redirect(url_for('login'))
+    cpf = get_jwt_identity()
 
-    user = User.query.filter_by(cpf=session['cpf']).first()
+    user = User.query.filter_by(cpf=cpf).first()
     account = Account.query.filter_by(cpf=user.cpf).first()
 
     if request.method == 'POST':
@@ -141,12 +154,34 @@ def transfer():
 
     return render_template('transfer.html', user=user, account=account)
 
+@app.route('/extrato')
+@jwt_required()
+def extrato():
+    cpf = get_jwt_identity()
+    user = User.query.filter_by(cpf=cpf).first()
+    account = Account.query.filter_by(cpf=cpf).first()
+    transactions = []
+    if account:
+        transactions = Transaction.query.filter(
+            (Transaction.source_account == account.id) | (Transaction.target_account == account.id)
+        ).order_by(Transaction.created_at.desc()).all()
+    return render_template('extrato.html', user=user, account=account, transactions=transactions)
+
+@app.route('/dados_conta')
+@jwt_required()
+def dados_conta():
+    cpf = get_jwt_identity()
+    user = User.query.filter_by(cpf=cpf).first()
+    account = Account.query.filter_by(cpf=cpf).first()
+    return render_template('dados_conta.html', user=user, account=account)
+
 
 @app.route('/logout')
 def logout():
-    session.pop('cpf', None)
+    resp = redirect(url_for('login'))
+    unset_jwt_cookies(resp)
     flash("Você saiu da conta.", "info")
-    return redirect(url_for('login'))
+    return resp
 
 if __name__ == '__main__':
     with app.app_context():
